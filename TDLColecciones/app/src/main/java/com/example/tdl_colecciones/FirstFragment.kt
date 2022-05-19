@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.navigation.fragment.findNavController
@@ -28,8 +29,6 @@ class FirstFragment : Fragment() {
 
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
-
-
         return binding.root
 
     }
@@ -43,11 +42,12 @@ class FirstFragment : Fragment() {
         collectionsAdapater = ArrayAdapter(this.requireContext(), android.R.layout.simple_list_item_1,collectionsArray)
         collectionsList.adapter = collectionsAdapater
 
-        binding.buttonFirst.setOnClickListener {
-
+        collectionsList.setOnItemClickListener(){parent,view,position,id->
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-
         }
+
+
+
     }
 
     override fun onDestroyView() {

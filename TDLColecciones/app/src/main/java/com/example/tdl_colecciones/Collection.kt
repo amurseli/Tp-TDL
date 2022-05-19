@@ -1,5 +1,5 @@
 package com.example.tdl_colecciones
 
-class Collections {
+class Collection (val nombre:String){
     
 }
