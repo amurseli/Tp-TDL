@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import androidx.navigation.fragment.findNavController
 import com.example.tdl_colecciones.databinding.FragmentFirstBinding
 
@@ -25,12 +27,21 @@ class FirstFragment : Fragment() {
     ): View? {
 
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
+
+
+
         return binding.root
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val collectionsAdapater:ArrayAdapter<*>
+        val collectionsList = binding.root.findViewById<ListView>(R.id.collectionList)
+        val collectionsArray = mutableListOf("Libros","Monedas")
+
+        collectionsAdapater = ArrayAdapter(this.requireContext(), android.R.layout.simple_list_item_1,collectionsArray)
+        collectionsList.adapter = collectionsAdapater
 
         binding.buttonFirst.setOnClickListener {
 
