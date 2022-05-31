@@ -1,4 +1,4 @@
-package com.example.tdl_colecciones
+package com.example.tdlcolecciones
 
 import org.junit.Test
 
