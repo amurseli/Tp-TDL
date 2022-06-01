@@ -1,4 +1,10 @@
 package com.example.tdlcolecciones
 
-class Item {
+import java.io.Serializable
+
+class Item (var name:String) : Serializable {
+
+    var dictionaryOfAttribute = linkedMapOf<String,String>()
+    //el linked hash map es un diccionario que garantiza el orden en el cual se agregan las cosas
+
 }
