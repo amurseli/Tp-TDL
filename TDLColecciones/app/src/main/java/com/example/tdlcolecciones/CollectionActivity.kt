@@ -32,7 +32,6 @@ class CollectionActivity : AppCompatActivity() {
         list.adapter = arrayAdapter
 
 
-
         val actionBar = supportActionBar
         actionBar!!.title = collection.name
         actionBar.setDisplayHomeAsUpEnabled(true)
@@ -51,6 +50,12 @@ class CollectionActivity : AppCompatActivity() {
 
         })
 
+        list.setOnItemClickListener { parent, view, position, id ->
+            val i = Intent(this, ItemActivity::class.java)
+            i.putExtra("data", collection.listOfItems[position])
+            startActivity(i)
+        }
+
 
 
     }
@@ -59,6 +64,5 @@ class CollectionActivity : AppCompatActivity() {
         onBackPressed()
         return true
     }
-
 
 }
