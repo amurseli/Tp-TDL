@@ -33,8 +33,6 @@ class LogInActivity : AppCompatActivity() {
 
         val log_in_btn: Button = findViewById(R.id.log_in_btn)
 
-
-
         mAuth = FirebaseAuth.getInstance();
 
         createRequest();
