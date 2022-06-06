@@ -32,6 +32,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        var email = intent.extras?.get("email")
+
+        Toast.makeText(this,email.toString(), Toast.LENGTH_SHORT).show()
+
         val fab: View = findViewById(R.id.fab1)
         val list: ListView = findViewById(R.id.list1)
 
