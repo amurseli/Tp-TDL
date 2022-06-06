@@ -48,4 +48,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:30.1.0')
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.1.2'
+    // dependencia sacada de mmis huevos TODO
+
 }
