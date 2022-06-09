@@ -33,12 +33,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         arrayAdapter.notifyDataSetChanged()
-        db.collection("users").document(email).set(
-            hashMapOf("COLECCIONES" to listOfCollections)
-        )
         super.onResume()
     }
 
+    override fun onStop() {
+        db.collection("users").document(email).set(
+            hashMapOf("COLECCIONES" to listOfCollections)
+        )
+        super.onStop()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,9 +51,21 @@ class MainActivity : AppCompatActivity() {
 
         Toast.makeText(this, email, Toast.LENGTH_SHORT).show()
 
-        //db.collection("users").document(email).get().addOnSuccessListener {
-        //    listOfCollections.addAll(it.get("COLECCIONES") as MutableList<Collection>)
-        //}
+        db.collection("users").document(email).get().addOnSuccessListener {
+
+           /* var hash = (it.get("COLECCIONES") as HashMap<String,String>)
+            for ((k,v) in hash){
+                var nuevaColeccion = Collection(v)
+                Log.e(TAG, element.name)
+                nuevaColeccion.listOfAttributes = element.listOfAttributes
+                nuevaColeccion.listOfItems = element.listOfItems
+
+                listOfCollections.add(nuevaColeccion)
+            }
+
+            */
+
+        }
 
         val fab: View = findViewById(R.id.fab1)
         val list: ListView = findViewById(R.id.list1)

@@ -7,11 +7,8 @@ class Collection (var name:String) : Serializable {
     var listOfItems = mutableListOf<Item>()
     var listOfAttributes = mutableListOf<String>()
 
+    class Collection(var listOfAttributes: MutableList<String>,var name: String, var listOfItems: MutableList<Item> ){
 
-
-    @JvmName("getName1")
-    fun getName(): String {
-        return name
     }
 
     fun addAttribute(attribute: String){
