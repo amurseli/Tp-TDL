@@ -61,20 +61,23 @@ class MainActivity : AppCompatActivity() {
         //-------------------GET INFO FROM FIRESRTORE--------------------
 
         db.collection("users").document(email).get().addOnSuccessListener {
-            var tamanio = it.get("TAMANIO") as Long
+            var tamanio = it.get("TAMANIO")
 
-            for (i in 0 until tamanio.toInt()) {
+            if (tamanio != null){
+                tamanio = tamanio as Long
+                for (i in 0 until tamanio.toInt()) {
 
-                db.collection("users").document(email).collection(i.toString()).document("data").get()
-                .addOnSuccessListener {
+                    db.collection("users").document(email).collection(i.toString()).document("data").get()
+                    .addOnSuccessListener {
 
-                    var nuevaColeccion = Collection(it.get("NOMBRE").toString())
-                    nuevaColeccion.addListOfAtribute(it.get("LISTA DE ATRIBUTOS") as MutableList<String>)
-                    nuevaColeccion.addListOfItems(it.get("LISTA DE ITEMS") as MutableList<Item>)
+                        var nuevaColeccion = Collection(it.get("NOMBRE").toString())
+                        nuevaColeccion.addListOfAtribute(it.get("LISTA DE ATRIBUTOS") as MutableList<String>)
+                        nuevaColeccion.addListOfItems(it.get("LISTA DE ITEMS") as MutableList<Item>)
 
-                    listOfCollections.add(nuevaColeccion)
-                    arrayAdapter.notifyDataSetChanged()
+                        listOfCollections.add(nuevaColeccion)
+                        arrayAdapter.notifyDataSetChanged()
 
+                    }
                 }
             }
         }
