@@ -12,12 +12,14 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.CollationElementIterator
 
 
 class MainActivity : AppCompatActivity() {
 
     var listOfCollections = mutableListOf<Collection>()
     lateinit var arrayAdapter: ArrayAdapter<*>
+
     private val db = FirebaseFirestore.getInstance()
 
     var email = ""
@@ -36,48 +38,65 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
     }
 
-    override fun onStop() {
-        db.collection("users").document(email).set(
-            hashMapOf("COLECCIONES" to listOfCollections)
-        )
-        super.onStop()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
+
 
         email = intent.extras?.get("email").toString()
 
         Toast.makeText(this, email, Toast.LENGTH_SHORT).show()
 
-        db.collection("users").document(email).get().addOnSuccessListener {
-
-           /* var hash = (it.get("COLECCIONES") as HashMap<String,String>)
-            for ((k,v) in hash){
-                var nuevaColeccion = Collection(v)
-                Log.e(TAG, element.name)
-                nuevaColeccion.listOfAttributes = element.listOfAttributes
-                nuevaColeccion.listOfItems = element.listOfItems
-
-                listOfCollections.add(nuevaColeccion)
-            }
-
-            */
-
-        }
 
         val fab: View = findViewById(R.id.fab1)
         val list: ListView = findViewById(R.id.list1)
+
+        //----------------ARRAY ADAPTER----------------------
 
         arrayAdapter =
             ArrayAdapter(this, android.R.layout.simple_list_item_1, listOfCollections)
         list.adapter = arrayAdapter
 
+        //-------------------GET INFO FROM FIRESRTORE--------------------
+
+        db.collection("users").document(email).get().addOnSuccessListener {
+            var tamanio = it.get("TAMANIO") as Long
+
+            for (i in 0 until tamanio.toInt()) {
+
+                db.collection("users").document(email).collection(i.toString()).document("data").get()
+                .addOnSuccessListener {
+
+                    var nuevaColeccion = Collection(it.get("NOMBRE").toString())
+                    nuevaColeccion.addListOfAtribute(it.get("LISTA DE ATRIBUTOS") as MutableList<String>)
+                    nuevaColeccion.addListOfItems(it.get("LISTA DE ITEMS") as MutableList<Item>)
+
+                    listOfCollections.add(nuevaColeccion)
+                    arrayAdapter.notifyDataSetChanged()
+
+                }
+            }
+        }
+
+
+
+        //----------------------SAVE INFO FIRESTORE-------------------
 
         val btn: Button = findViewById(R.id.btn2)
 
         btn.setOnClickListener(View.OnClickListener {
+            var i = 0
+            db.collection("users").document(email).set(
+                hashMapOf("TAMANIO" to listOfCollections.size )
+            )
+
+            for (coleccion in listOfCollections){
+                db.collection("users").document(email).collection(i.toString()).document("data").set(
+                    hashMapOf("NOMBRE" to coleccion.name,"LISTA DE ITEMS" to coleccion.listOfItems, "LISTA DE ATRIBUTOS" to coleccion.listOfAttributes)
+                )
+                i++
+            }
 
         })
 
@@ -93,6 +112,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(i)
         }
 
+    super.onCreate(savedInstanceState)
     }
 
 }

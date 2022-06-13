@@ -25,5 +25,9 @@ class Collection (var name:String) : Serializable {
         listOfItems.add(item)
     }
 
-
+    fun addListOfItems(list : MutableList<Item>){
+        for (item in list){
+            this.addItem(item)
+        }
+    }
 }
