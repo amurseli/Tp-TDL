@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.CollationElementIterator
+import java.util.HashMap
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +34,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    private val responseLauncher2 =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == RESULT_OK) {
+                val updateCollection = activityResult.data?.getSerializableExtra("updateCollection") as Collection
+                val position = activityResult.data?.extras?.get("position") as Int
+                listOfCollections.set(position,updateCollection)
+            }
+        }
     override fun onResume() {
         arrayAdapter.notifyDataSetChanged()
         super.onResume()
@@ -72,7 +81,21 @@ class MainActivity : AppCompatActivity() {
 
                         var nuevaColeccion = Collection(it.get("NOMBRE").toString())
                         nuevaColeccion.addListOfAtribute(it.get("LISTA DE ATRIBUTOS") as MutableList<String>)
-                        nuevaColeccion.addListOfItems(it.get("LISTA DE ITEMS") as MutableList<Item>)
+                       var cantidadDeItems = it.get("CANTIDAD DE ITEMS")
+
+                        if (cantidadDeItems != null){
+                            cantidadDeItems = cantidadDeItems as Long
+                            for (j in 0 until cantidadDeItems.toInt()){
+                                db.collection("users").document(email).collection(i.toString())
+                                    .document("data").collection(j.toString()).document("data2")
+                                    .get().addOnSuccessListener {
+                                        var nuevoItem = Item(it.get("NOMBRE ITEM").toString())
+                                        nuevoItem.dictionaryOfAttribute = it.get("ATRIBUTOS ITEM") as HashMap<String,String>
+                                        nuevaColeccion.addItem(nuevoItem)
+                                    }
+
+                            }
+                        }
 
                         listOfCollections.add(nuevaColeccion)
                         arrayAdapter.notifyDataSetChanged()
@@ -90,17 +113,32 @@ class MainActivity : AppCompatActivity() {
 
         btn.setOnClickListener(View.OnClickListener {
             var i = 0
+            var j = 0
             db.collection("users").document(email).set(
                 hashMapOf("TAMANIO" to listOfCollections.size )
             )
 
-            for (coleccion in listOfCollections){
-                db.collection("users").document(email).collection(i.toString()).document("data").set(
-                    hashMapOf("NOMBRE" to coleccion.name,"LISTA DE ITEMS" to coleccion.listOfItems, "LISTA DE ATRIBUTOS" to coleccion.listOfAttributes)
-                )
+            for (coleccion in listOfCollections) {
+                for (item in coleccion.listOfItems) {
+                    db.collection("users").document(email).collection(i.toString()).document("data")
+                        .set(
+                            hashMapOf(
+                                "NOMBRE" to coleccion.name,
+                                "LISTA DE ATRIBUTOS" to coleccion.listOfAttributes,
+                                "CANTIDAD DE ITEMS" to coleccion.listOfItems.size
+                            )
+
+
+                        )
+                    db.collection("users").document(email).collection(i.toString())
+                        .document("data").collection(j.toString()).document("data2")
+                        .set(
+                            linkedMapOf("NOMBRE ITEM" to item.name, "ATRIBUTOS ITEM" to item.dictionaryOfAttribute)
+                        )
+                    j++
+                }
                 i++
             }
-
         })
 
         fab.setOnClickListener(View.OnClickListener {
@@ -112,7 +150,8 @@ class MainActivity : AppCompatActivity() {
         list.setOnItemClickListener { parent, view, position, id ->
             val i = Intent(this, CollectionActivity::class.java)
             i.putExtra("coleccion", listOfCollections[position])
-            startActivity(i)
+            i.putExtra("position", position)
+            responseLauncher2.launch(i)
         }
 
     super.onCreate(savedInstanceState)

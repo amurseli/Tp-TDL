@@ -24,8 +24,10 @@ class CollectionActivity : AppCompatActivity() {
 
         val fab: View = findViewById(R.id.fab2)
         val list: ListView = findViewById(R.id.list2)
+        val saveBtn : Button = findViewById(R.id.saveBtnCollection)
 
         var collection = intent.getSerializableExtra("coleccion") as com.example.tdlcolecciones.Collection
+        var position = intent.extras?.get("position") as Int
 
 
         arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,collection.listOfItems)
@@ -56,11 +58,23 @@ class CollectionActivity : AppCompatActivity() {
             startActivity(i)
         }
 
-
+        saveBtn.setOnClickListener(View.OnClickListener {
+            saveInfo(collection,position)
+            onBackPressed()
+        })
 
     }
 
+    fun saveInfo(updateCollection: com.example.tdlcolecciones.Collection, position: Int){
+
+        val intent = Intent()
+        intent.putExtra("updateCollection", (updateCollection))
+        intent.putExtra("position", position)
+        setResult(RESULT_OK, intent)
+        finish()
+    }
     override fun onSupportNavigateUp(): Boolean {
+        //saveInfo(collection, position)
         onBackPressed()
         return true
     }
