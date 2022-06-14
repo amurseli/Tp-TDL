@@ -30,7 +30,7 @@ class CollectionActivity : AppCompatActivity() {
         var position = intent.extras?.get("position") as Int
 
 
-        arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,collection.listOfItems)
+        arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,collection.listOfNamesOfItems)
         list.adapter = arrayAdapter
 
 

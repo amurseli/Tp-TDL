@@ -19,6 +19,7 @@ import java.util.HashMap
 class MainActivity : AppCompatActivity() {
 
     var listOfCollections = mutableListOf<Collection>()
+    var listOfNamesOfCollection = mutableListOf<String>()
     lateinit var arrayAdapter: ArrayAdapter<*>
 
     private val db = FirebaseFirestore.getInstance()
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
                 val newCollection =
                     activityResult.data?.getSerializableExtra("nombre") as Collection
                 listOfCollections.add(newCollection)
+                listOfNamesOfCollection.add(newCollection.name)
             }
         }
 
@@ -52,7 +54,6 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-
         email = intent.extras?.get("email").toString()
 
         Toast.makeText(this, email, Toast.LENGTH_SHORT).show()
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         //----------------ARRAY ADAPTER----------------------
 
         arrayAdapter =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, listOfCollections)
+            ArrayAdapter(this, android.R.layout.simple_list_item_1, listOfNamesOfCollection)
         list.adapter = arrayAdapter
 
         //-------------------GET INFO FROM FIRESRTORE--------------------
@@ -98,6 +99,7 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         listOfCollections.add(nuevaColeccion)
+                        listOfNamesOfCollection.add(nuevaColeccion.name)
                         arrayAdapter.notifyDataSetChanged()
 
                     }
@@ -137,6 +139,7 @@ class MainActivity : AppCompatActivity() {
                         )
                     j++
                 }
+                j = 0
                 i++
             }
         })

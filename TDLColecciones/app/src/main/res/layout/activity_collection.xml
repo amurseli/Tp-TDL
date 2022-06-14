@@ -26,12 +26,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_input_add"
         tools:ignore="SpeakableTextPresentCheck" />
+
     <Button
         android:id="@+id/saveBtnCollection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="GUARDAR"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/fab2"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
