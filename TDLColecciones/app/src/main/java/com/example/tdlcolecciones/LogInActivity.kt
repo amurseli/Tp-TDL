@@ -1,7 +1,9 @@
 package com.example.tdlcolecciones
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -25,6 +27,7 @@ class LogInActivity : AppCompatActivity() {
     lateinit var mGoogleSignInClient : GoogleSignInClient
     lateinit var mAuth:FirebaseAuth
     private val RC_SIGN_IN: Int = 123
+    var logout: Boolean = false
     var email = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +35,8 @@ class LogInActivity : AppCompatActivity() {
         setContentView(R.layout.activity_log_in)
 
         val log_in_btn: Button = findViewById(R.id.log_in_btn)
+
+        //logout = intent.extras?.get("logout")!! as Boolean
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -47,6 +52,8 @@ class LogInActivity : AppCompatActivity() {
             val signInIntent: Intent = mGoogleSignInClient.getSignInIntent()
             startActivityForResult(signInIntent, RC_SIGN_IN)
         })
+
+
 
     }
 
@@ -93,5 +100,6 @@ class LogInActivity : AppCompatActivity() {
                     }
                 })
     }
+
 
 }

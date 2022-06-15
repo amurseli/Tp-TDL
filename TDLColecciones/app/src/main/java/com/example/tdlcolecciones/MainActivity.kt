@@ -1,25 +1,27 @@
 package com.example.tdlcolecciones
 
-import android.content.ContentValues.TAG
+import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.auth.api.Auth
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import java.text.CollationElementIterator
-import java.util.HashMap
 
 
 class MainActivity : AppCompatActivity() {
 
     var listOfCollections = mutableListOf<Collection>()
     lateinit var arrayAdapter: AdapterSuperCool
+    lateinit var authListener:FirebaseAuth.AuthStateListener
+    lateinit var mAuth:FirebaseAuth
 
     private val db = FirebaseFirestore.getInstance()
 
@@ -56,9 +58,11 @@ class MainActivity : AppCompatActivity() {
 
         Toast.makeText(this, email, Toast.LENGTH_SHORT).show()
 
+        mAuth = FirebaseAuth.getInstance();
 
         val fab: View = findViewById(R.id.fab1)
         val list: ListView = findViewById(R.id.list1)
+        val logOut: Button = findViewById(R.id.logOut)
 
         //----------------ARRAY ADAPTER----------------------
 
@@ -162,6 +166,13 @@ class MainActivity : AppCompatActivity() {
             return@setOnItemLongClickListener true
 
         }
+
+        logOut.setOnClickListener(View.OnClickListener {
+            mAuth.signOut()
+            val intent = Intent(this,LogInActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        })
 
     super.onCreate(savedInstanceState)
     }
