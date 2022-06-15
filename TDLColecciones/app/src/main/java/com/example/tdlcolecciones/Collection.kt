@@ -28,4 +28,9 @@ class Collection (var name:String) : Serializable {
             this.addItem(item)
         }
     }
+
+    fun deleteItem(position: Int){
+        listOfItems.removeAt(position)
+        listOfNamesOfItems.removeAt(position)
+    }
 }

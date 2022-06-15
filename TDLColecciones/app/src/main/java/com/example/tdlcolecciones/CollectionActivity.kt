@@ -52,10 +52,18 @@ class CollectionActivity : AppCompatActivity() {
 
         })
 
-        list.setOnItemClickListener { parent, view, position, id ->
+        list.setOnItemClickListener { _, _, position, _ ->
             val i = Intent(this, ItemActivity::class.java)
             i.putExtra("data", collection.listOfItems[position])
             startActivity(i)
+        }
+
+        list.setOnItemLongClickListener { _, _, position, _ ->
+            Toast.makeText(this,"HOLA ${position}",Toast.LENGTH_SHORT).show()
+            collection.deleteItem(position)
+            arrayAdapter.notifyDataSetChanged()
+            return@setOnItemLongClickListener true
+
         }
 
         saveBtn.setOnClickListener(View.OnClickListener {

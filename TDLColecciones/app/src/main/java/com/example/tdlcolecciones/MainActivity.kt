@@ -157,6 +157,16 @@ class MainActivity : AppCompatActivity() {
             responseLauncher2.launch(i)
         }
 
+
+        list.setOnItemLongClickListener { _, _, position, _ ->
+            Toast.makeText(this,"HOLA ${position}",Toast.LENGTH_SHORT).show()
+            listOfCollections.removeAt(position)
+            listOfNamesOfCollection.removeAt(position)
+            arrayAdapter.notifyDataSetChanged()
+            return@setOnItemLongClickListener true
+
+        }
+
     super.onCreate(savedInstanceState)
     }
 
