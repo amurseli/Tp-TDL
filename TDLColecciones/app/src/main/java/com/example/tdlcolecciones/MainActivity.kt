@@ -19,7 +19,6 @@ import java.util.HashMap
 class MainActivity : AppCompatActivity() {
 
     var listOfCollections = mutableListOf<Collection>()
-    var listOfNamesOfCollection = mutableListOf<String>()
     lateinit var arrayAdapter: AdapterSuperCool
 
     private val db = FirebaseFirestore.getInstance()
@@ -32,7 +31,6 @@ class MainActivity : AppCompatActivity() {
                 val newCollection =
                     activityResult.data?.getSerializableExtra("nombre") as Collection
                 listOfCollections.add(newCollection)
-                listOfNamesOfCollection.add(newCollection.name)
             }
         }
 
@@ -99,7 +97,6 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         listOfCollections.add(nuevaColeccion)
-                        listOfNamesOfCollection.add(nuevaColeccion.name)
                         arrayAdapter.notifyDataSetChanged()
 
                     }
@@ -161,7 +158,6 @@ class MainActivity : AppCompatActivity() {
         list.setOnItemLongClickListener { _, _, position, _ ->
             Toast.makeText(this,"HOLA ${position}",Toast.LENGTH_SHORT).show()
             listOfCollections.removeAt(position)
-            listOfNamesOfCollection.removeAt(position)
             arrayAdapter.notifyDataSetChanged()
             return@setOnItemLongClickListener true
 
