@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     var listOfCollections = mutableListOf<Collection>()
     var listOfNamesOfCollection = mutableListOf<String>()
-    lateinit var arrayAdapter: ArrayAdapter<*>
+    lateinit var arrayAdapter: AdapterSuperCool
 
     private val db = FirebaseFirestore.getInstance()
 
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         //----------------ARRAY ADAPTER----------------------
 
         arrayAdapter =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, listOfNamesOfCollection)
+            AdapterSuperCool(this, listOfCollections)
         list.adapter = arrayAdapter
 
         //-------------------GET INFO FROM FIRESRTORE--------------------
