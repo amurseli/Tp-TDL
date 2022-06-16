@@ -10,4 +10,11 @@
 
     <color name="bg_color">#040507</color>
     <color name="bg_card_color">#423F5B</color>
+
+    //paleta
+    <color name="blanco_beige">#fffbf2</color>
+    <color name="amarillo_beige">#fffbbd</color>
+    <color name="amarillo_miel">#ffdb82</color>
+    <color name="rosita">#ff7c83</color>
+    <color name="rosa_fuerte">#ff31c6</color>
 </resources>

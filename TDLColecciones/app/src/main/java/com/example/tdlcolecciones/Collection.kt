@@ -5,7 +5,6 @@ import java.io.Serializable
 class Collection (var name:String) : Serializable {
 
     var listOfItems = mutableListOf<Item>()
-    var listOfNamesOfItems = mutableListOf<String>()
     var listOfAttributes = mutableListOf<String>()
 
     fun addAttribute(attribute: String){
@@ -20,7 +19,6 @@ class Collection (var name:String) : Serializable {
 
     fun addItem(item: Item){
         listOfItems.add(item)
-        listOfNamesOfItems.add(item.name)
     }
 
     fun addListOfItems(list : MutableList<Item>){
@@ -31,6 +29,5 @@ class Collection (var name:String) : Serializable {
 
     fun deleteItem(position: Int){
         listOfItems.removeAt(position)
-        listOfNamesOfItems.removeAt(position)
     }
 }

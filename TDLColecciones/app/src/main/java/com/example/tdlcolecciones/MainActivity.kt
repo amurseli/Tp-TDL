@@ -122,17 +122,18 @@ class MainActivity : AppCompatActivity() {
             )
 
             for (coleccion in listOfCollections) {
-                for (item in coleccion.listOfItems) {
-                    db.collection("users").document(email).collection(i.toString()).document("data")
-                        .set(
-                            hashMapOf(
-                                "NOMBRE" to coleccion.name,
-                                "LISTA DE ATRIBUTOS" to coleccion.listOfAttributes,
-                                "CANTIDAD DE ITEMS" to coleccion.listOfItems.size
-                            )
-
-
+                db.collection("users").document(email).collection(i.toString()).document("data")
+                    .set(
+                        hashMapOf(
+                            "NOMBRE" to coleccion.name,
+                            "LISTA DE ATRIBUTOS" to coleccion.listOfAttributes,
+                            "CANTIDAD DE ITEMS" to coleccion.listOfItems.size
                         )
+
+
+                    )
+                for (item in coleccion.listOfItems) {
+
                     db.collection("users").document(email).collection(i.toString())
                         .document("data").collection(j.toString()).document("data2")
                         .set(
