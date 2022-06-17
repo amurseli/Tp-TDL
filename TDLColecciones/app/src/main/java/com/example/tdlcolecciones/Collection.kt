@@ -30,4 +30,6 @@ class Collection (var name:String) : Serializable {
     fun deleteItem(position: Int){
         listOfItems.removeAt(position)
     }
+
+
 }

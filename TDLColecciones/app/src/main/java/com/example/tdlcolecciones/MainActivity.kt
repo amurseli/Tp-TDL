@@ -54,96 +54,32 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
+        val actionBar = supportActionBar
+        actionBar!!.title = "Tus Colecciones"
+
         email = intent.extras?.get("email").toString()
 
-        Toast.makeText(this, email, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this,"Hola " + email, Toast.LENGTH_SHORT).show()
 
         mAuth = FirebaseAuth.getInstance();
 
         val fab: View = findViewById(R.id.fab1)
         val list: ListView = findViewById(R.id.list1)
         val logOut: Button = findViewById(R.id.logOut)
+        val btnSave: Button = findViewById(R.id.btn2)
 
-        //----------------ARRAY ADAPTER----------------------
+
 
         arrayAdapter =
             AdapterSuperCool(this, listOfCollections)
         list.adapter = arrayAdapter
 
-        //-------------------GET INFO FROM FIRESRTORE--------------------
 
-        db.collection("users").document(email).get().addOnSuccessListener {
-            var tamanio = it.get("TAMANIO")
-
-            if (tamanio != null){
-                tamanio = tamanio as Long
-                for (i in 0 until tamanio.toInt()) {
-
-                    db.collection("users").document(email).collection(i.toString()).document("data").get()
-                    .addOnSuccessListener {
-
-                        var nuevaColeccion = Collection(it.get("NOMBRE").toString())
-                        nuevaColeccion.addListOfAtribute(it.get("LISTA DE ATRIBUTOS") as MutableList<String>)
-                       var cantidadDeItems = it.get("CANTIDAD DE ITEMS")
-
-                        if (cantidadDeItems != null){
-                            cantidadDeItems = cantidadDeItems as Long
-                            for (j in 0 until cantidadDeItems.toInt()){
-                                db.collection("users").document(email).collection(i.toString())
-                                    .document("data").collection(j.toString()).document("data2")
-                                    .get().addOnSuccessListener {
-                                        var nuevoItem = Item(it.get("NOMBRE ITEM").toString())
-                                        nuevoItem.dictionaryOfAttribute = it.get("ATRIBUTOS ITEM") as HashMap<String,String>
-                                        nuevaColeccion.addItem(nuevoItem)
-                                    }
-
-                            }
-                        }
-
-                        listOfCollections.add(nuevaColeccion)
-                        arrayAdapter.notifyDataSetChanged()
-
-                    }
-                }
-            }
-        }
+        getInfo()
 
 
-
-        //----------------------SAVE INFO FIRESTORE-------------------
-
-        val btn: Button = findViewById(R.id.btn2)
-
-        btn.setOnClickListener(View.OnClickListener {
-            var i = 0
-            var j = 0
-            db.collection("users").document(email).set(
-                hashMapOf("TAMANIO" to listOfCollections.size )
-            )
-
-            for (coleccion in listOfCollections) {
-                db.collection("users").document(email).collection(i.toString()).document("data")
-                    .set(
-                        hashMapOf(
-                            "NOMBRE" to coleccion.name,
-                            "LISTA DE ATRIBUTOS" to coleccion.listOfAttributes,
-                            "CANTIDAD DE ITEMS" to coleccion.listOfItems.size
-                        )
-
-
-                    )
-                for (item in coleccion.listOfItems) {
-
-                    db.collection("users").document(email).collection(i.toString())
-                        .document("data").collection(j.toString()).document("data2")
-                        .set(
-                            linkedMapOf("NOMBRE ITEM" to item.name, "ATRIBUTOS ITEM" to item.dictionaryOfAttribute)
-                        )
-                    j++
-                }
-                j = 0
-                i++
-            }
+        btnSave.setOnClickListener(View.OnClickListener {
+            saveInfo()
         })
 
         fab.setOnClickListener(View.OnClickListener {
@@ -161,7 +97,7 @@ class MainActivity : AppCompatActivity() {
 
 
         list.setOnItemLongClickListener { _, _, position, _ ->
-            Toast.makeText(this,"HOLA ${position}",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Borraste: ${listOfCollections[position].name}",Toast.LENGTH_SHORT).show()
             listOfCollections.removeAt(position)
             arrayAdapter.notifyDataSetChanged()
             return@setOnItemLongClickListener true
@@ -176,6 +112,85 @@ class MainActivity : AppCompatActivity() {
         })
 
     super.onCreate(savedInstanceState)
+    }
+
+
+    private fun getInfo() {
+        db.collection("users").document(email).get().addOnSuccessListener {
+            var tamanio = it.get("TAMANIO")
+
+            if (tamanio != null){
+                tamanio = tamanio as Long
+                for (i in 0 until tamanio.toInt()) {
+
+                    db.collection("users").document(email).collection(i.toString()).document("data").get()
+                        .addOnSuccessListener {
+
+                            var nuevaColeccion = Collection(it.get("NOMBRE").toString())
+                            nuevaColeccion.addListOfAtribute(it.get("LISTA DE ATRIBUTOS") as MutableList<String>)
+                            var cantidadDeItems = it.get("CANTIDAD DE ITEMS")
+
+                            if (cantidadDeItems != null){
+                                cantidadDeItems = cantidadDeItems as Long
+
+                                for (j in 0 until cantidadDeItems.toInt()){
+                                    db.collection("users").document(email).collection(i.toString())
+                                        .document("data").collection(j.toString()).document("data2")
+                                        .get().addOnSuccessListener {
+                                            var nuevoItem = Item(it.get("NOMBRE ITEM").toString())
+                                            nuevoItem.dictionaryOfAttribute = it.get("ATRIBUTOS ITEM") as HashMap<String,String>
+                                            nuevaColeccion.addItem(nuevoItem)
+
+                                            arrayAdapter.notifyDataSetChanged()
+                                        }
+
+                                }
+
+                            }
+
+                            listOfCollections.add(nuevaColeccion)
+                            arrayAdapter.notifyDataSetChanged()
+
+                        }
+                }
+            }
+        }
+    }
+
+
+    private fun saveInfo() {
+        var i = 0
+        var j = 0
+        db.collection("users").document(email).set(
+            hashMapOf("TAMANIO" to listOfCollections.size )
+        )
+
+        for (coleccion in listOfCollections) {
+            db.collection("users").document(email).collection(i.toString()).document("data")
+                .set(
+                    hashMapOf(
+                        "NOMBRE" to coleccion.name,
+                        "LISTA DE ATRIBUTOS" to coleccion.listOfAttributes,
+                        "CANTIDAD DE ITEMS" to coleccion.listOfItems.size
+                    )
+
+
+                )
+            for (item in coleccion.listOfItems) {
+
+                db.collection("users").document(email).collection(i.toString())
+                    .document("data").collection(j.toString()).document("data2")
+                    .set(
+                        linkedMapOf("NOMBRE ITEM" to item.name, "ATRIBUTOS ITEM" to item.dictionaryOfAttribute)
+                    )
+                j++
+            }
+            j = 0
+            i++
+        }
+
+        Toast.makeText(this,"Cambios guardados",Toast.LENGTH_SHORT).show()
+
     }
 
 }

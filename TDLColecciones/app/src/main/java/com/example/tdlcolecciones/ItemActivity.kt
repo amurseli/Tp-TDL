@@ -1,13 +1,10 @@
 package com.example.tdlcolecciones
 
-import android.content.ContentValues.TAG
 import android.graphics.Typeface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.marginLeft
 
 class ItemActivity : AppCompatActivity() {
