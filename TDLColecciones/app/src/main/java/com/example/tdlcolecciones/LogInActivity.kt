@@ -28,7 +28,6 @@ class LogInActivity : AppCompatActivity() {
     lateinit var mGoogleSignInClient : GoogleSignInClient
     lateinit var mAuth:FirebaseAuth
     private val RC_SIGN_IN: Int = 123
-    var logout: Boolean = false
     var email = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,15 +38,16 @@ class LogInActivity : AppCompatActivity() {
         val logOut: Button = findViewById(R.id.logOut)
         val logInText: TextView = findViewById(R.id.loginTextView)
 
-        //logout = intent.extras?.get("logout")!! as Boolean
-
         mAuth = FirebaseAuth.getInstance();
 
         createRequest();
 
         val acct = GoogleSignIn.getLastSignedInAccount(this)
+
         if (acct != null) {
-            logInText.text = acct.email
+            logInText.text = "Estás logueado con: \n" + acct.email
+        } else {
+            logInText.text = "Estás deslogueado"
         }
 
 
@@ -59,6 +59,8 @@ class LogInActivity : AppCompatActivity() {
         logOut.setOnClickListener(View.OnClickListener {
             if(acct != null){
                 mAuth.signOut()
+                mGoogleSignInClient.signOut()
+                logInText.text = "Estás deslogueado"
             }
         })
     }

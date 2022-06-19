@@ -20,8 +20,6 @@ class MainActivity : AppCompatActivity() {
 
     var listOfCollections = mutableListOf<Collection>()
     lateinit var arrayAdapter: AdapterSuperCool
-    lateinit var authListener:FirebaseAuth.AuthStateListener
-    lateinit var mAuth:FirebaseAuth
 
     private val db = FirebaseFirestore.getInstance()
 
@@ -61,8 +59,6 @@ class MainActivity : AppCompatActivity() {
 
         Toast.makeText(this,"Hola " + email, Toast.LENGTH_SHORT).show()
 
-        mAuth = FirebaseAuth.getInstance();
-
         val fab: View = findViewById(R.id.fab1)
         val list: ListView = findViewById(R.id.list1)
         val btnSave: Button = findViewById(R.id.btn2)
@@ -87,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-        list.setOnItemClickListener { parent, view, position, id ->
+        list.setOnItemClickListener { _, _, position, _ ->
             val i = Intent(this, CollectionActivity::class.java)
             i.putExtra("coleccion", listOfCollections[position])
             i.putExtra("position", position)
@@ -165,8 +161,6 @@ class MainActivity : AppCompatActivity() {
                         "LISTA DE ATRIBUTOS" to coleccion.listOfAttributes,
                         "CANTIDAD DE ITEMS" to coleccion.listOfItems.size
                     )
-
-
                 )
             for (item in coleccion.listOfItems) {
 
