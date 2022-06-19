@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -35,6 +36,8 @@ class LogInActivity : AppCompatActivity() {
         setContentView(R.layout.activity_log_in)
 
         val log_in_btn: Button = findViewById(R.id.log_in_btn)
+        val logOut: Button = findViewById(R.id.logOut)
+        val logInText: TextView = findViewById(R.id.loginTextView)
 
         //logout = intent.extras?.get("logout")!! as Boolean
 
@@ -44,7 +47,7 @@ class LogInActivity : AppCompatActivity() {
 
         val acct = GoogleSignIn.getLastSignedInAccount(this)
         if (acct != null) {
-            val intent = Intent(this, MainActivity::class.java)
+            logInText.text = acct.email
         }
 
 
@@ -53,8 +56,11 @@ class LogInActivity : AppCompatActivity() {
             startActivityForResult(signInIntent, RC_SIGN_IN)
         })
 
-
-
+        logOut.setOnClickListener(View.OnClickListener {
+            if(acct != null){
+                mAuth.signOut()
+            }
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

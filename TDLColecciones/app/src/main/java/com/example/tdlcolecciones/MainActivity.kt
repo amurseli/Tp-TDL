@@ -65,7 +65,6 @@ class MainActivity : AppCompatActivity() {
 
         val fab: View = findViewById(R.id.fab1)
         val list: ListView = findViewById(R.id.list1)
-        val logOut: Button = findViewById(R.id.logOut)
         val btnSave: Button = findViewById(R.id.btn2)
 
 
@@ -103,13 +102,6 @@ class MainActivity : AppCompatActivity() {
             return@setOnItemLongClickListener true
 
         }
-
-        logOut.setOnClickListener(View.OnClickListener {
-            mAuth.signOut()
-            val intent = Intent(this,LogInActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-        })
 
     super.onCreate(savedInstanceState)
     }
