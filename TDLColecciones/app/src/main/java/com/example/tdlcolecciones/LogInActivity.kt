@@ -2,6 +2,7 @@ package com.example.tdlcolecciones
 
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -45,9 +46,11 @@ class LogInActivity : AppCompatActivity() {
         val acct = GoogleSignIn.getLastSignedInAccount(this)
 
         if (acct != null) {
-            logInText.text = "Estás logueado con: \n" + acct.email
+            logInText.text = "Hola: \n" + acct.email
+            log_in_btn.text = "Ingresar"
         } else {
-            logInText.text = "Estás deslogueado"
+            logOut.visibility = View.INVISIBLE
+            logInText.text = "Ingresa con tu cuenta!"
         }
 
 
@@ -60,7 +63,8 @@ class LogInActivity : AppCompatActivity() {
             if(acct != null){
                 mAuth.signOut()
                 mGoogleSignInClient.signOut()
-                logInText.text = "Estás deslogueado"
+                logOut.visibility = View.INVISIBLE
+                logInText.text = "Ingresa con tu cuenta!"
             }
         })
     }
