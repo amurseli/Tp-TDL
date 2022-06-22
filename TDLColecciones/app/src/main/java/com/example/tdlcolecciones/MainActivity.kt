@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
                 val updateCollection = activityResult.data?.getSerializableExtra("updateCollection") as Collection
                 val position = activityResult.data?.extras?.get("position") as Int
                 listOfCollections.set(position,updateCollection)
+                saveInfo()
             }
         }
     override fun onResume() {
@@ -90,6 +91,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this,"Borraste: ${listOfCollections[position].name}",Toast.LENGTH_SHORT).show()
             listOfCollections.removeAt(position)
             arrayAdapter.notifyDataSetChanged()
+            saveInfo()
             return@setOnItemLongClickListener true
 
         }

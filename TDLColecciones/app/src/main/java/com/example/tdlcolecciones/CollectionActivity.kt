@@ -25,11 +25,9 @@ class CollectionActivity : AppCompatActivity() {
 
         val fab: View = findViewById(R.id.fab2)
         val list: ListView = findViewById(R.id.list2)
-        val saveBtn : Button = findViewById(R.id.saveBtnCollection)
 
         var collection = intent.getSerializableExtra("coleccion") as com.example.tdlcolecciones.Collection
         var position = intent.extras?.get("position") as Int
-
 
         arrayAdapter = AdapterSuperCoolItem(this,collection.listOfItems)
         list.adapter = arrayAdapter
@@ -45,6 +43,7 @@ class CollectionActivity : AppCompatActivity() {
             if(activityResult.resultCode == RESULT_OK){
                 val newItem = activityResult.data?.getSerializableExtra("item") as Item
                 collection.addItem(newItem)
+                saveInfo(collection,position)
             }
         }
 
@@ -69,11 +68,6 @@ class CollectionActivity : AppCompatActivity() {
 
         }
 
-        saveBtn.setOnClickListener(View.OnClickListener {
-            saveInfo(collection,position)
-            onBackPressed()
-        })
-
     }
 
     fun saveInfo(updateCollection: com.example.tdlcolecciones.Collection, position: Int){
@@ -82,7 +76,6 @@ class CollectionActivity : AppCompatActivity() {
         intent.putExtra("updateCollection", (updateCollection))
         intent.putExtra("position", position)
         setResult(RESULT_OK, intent)
-        finish()
     }
     override fun onSupportNavigateUp(): Boolean {
         //saveInfo(collection, position)
