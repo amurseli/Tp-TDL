@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
                 val newCollection =
                     activityResult.data?.getSerializableExtra("nombre") as Collection
                 listOfCollections.add(newCollection)
+                saveInfo()
             }
         }
 
@@ -61,8 +62,6 @@ class MainActivity : AppCompatActivity() {
 
         val fab: View = findViewById(R.id.fab1)
         val list: ListView = findViewById(R.id.list1)
-        val btnSave: Button = findViewById(R.id.btn2)
-
 
 
         arrayAdapter =
@@ -72,10 +71,6 @@ class MainActivity : AppCompatActivity() {
 
         getInfo()
 
-
-        btnSave.setOnClickListener(View.OnClickListener {
-            saveInfo()
-        })
 
         fab.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, CreateCollectionActivity::class.java)
