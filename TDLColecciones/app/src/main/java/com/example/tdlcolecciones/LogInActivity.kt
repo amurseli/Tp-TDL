@@ -52,6 +52,11 @@ class LogInActivity : AppCompatActivity() {
         if (acct != null) {
             logInText.text = "Hola: \n" + acct.email
             log_in_btn.text = "Ingresar"
+            val user: FirebaseUser? = mAuth.getCurrentUser()
+            email = mAuth.currentUser?.email.toString()
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            intent.putExtra("email", email)
+            startActivity(intent)
         } else {
             logOut.visibility = View.INVISIBLE
             logInText.text = "Ingresa con tu cuenta!"
