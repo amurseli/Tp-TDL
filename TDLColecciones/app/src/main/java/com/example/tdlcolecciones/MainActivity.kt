@@ -1,18 +1,17 @@
 package com.example.tdlcolecciones
 
-import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 
 
@@ -20,6 +19,9 @@ class MainActivity : AppCompatActivity() {
 
     var listOfCollections = mutableListOf<Collection>()
     lateinit var arrayAdapter: AdapterSuperCool
+
+    lateinit var mAuth:FirebaseAuth
+
 
     private val db = FirebaseFirestore.getInstance()
 
@@ -97,6 +99,32 @@ class MainActivity : AppCompatActivity() {
         }
 
     super.onCreate(savedInstanceState)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        this.menuInflater.inflate(R.menu.menu,menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when (item.itemId){
+            R.id.logout -> logout()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    fun logout(){
+        mAuth = FirebaseAuth.getInstance()
+
+
+        mAuth.signOut()
+
+
+        val intent = Intent(applicationContext, LogInActivity::class.java)
+        intent.putExtra("logout",true)
+        startActivity(intent)
     }
 
 

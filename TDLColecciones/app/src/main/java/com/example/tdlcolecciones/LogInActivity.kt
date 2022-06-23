@@ -1,10 +1,7 @@
 package com.example.tdlcolecciones
 
-import android.content.ContentValues.TAG
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -17,7 +14,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -40,7 +36,15 @@ class LogInActivity : AppCompatActivity() {
         val logInText: TextView = findViewById(R.id.loginTextView)
 
         mAuth = FirebaseAuth.getInstance();
-
+        val extras = intent.extras
+        if (extras != null) {
+            if (extras.containsKey("logout")) {
+                val boolLogOut = extras.getBoolean("logout", false)
+                if (boolLogOut){
+                    signOut()
+                }
+            }
+        }
         createRequest();
 
         val acct = GoogleSignIn.getLastSignedInAccount(this)
@@ -84,6 +88,11 @@ class LogInActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    public fun signOut(){
+        createRequest()
+        mGoogleSignInClient.signOut()
     }
 
     private fun createRequest() {
