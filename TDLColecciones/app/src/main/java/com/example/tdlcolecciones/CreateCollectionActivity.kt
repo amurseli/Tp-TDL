@@ -34,31 +34,16 @@ class CreateCollectionActivity : AppCompatActivity() {
 
 
         saveBtn.setOnClickListener(View.OnClickListener {
-            var nameCollection = editTxtName.text.toString()
-            var newCollection = Collection(nameCollection)
-            newCollection.addListOfAtribute(listOfAttribute)
-            saveInfo(newCollection)
+
+            if (validarGuardado(editTxtAttribute,editTxtName)) {
+                var newCollection = Collection(editTxtName.text.toString())
+                newCollection.addListOfAtribute(listOfAttribute)
+                saveInfo(newCollection)
+            }
         })
 
         addAttributeBtn.setOnClickListener(View.OnClickListener {
-            var newAtributte = editTxtAttribute.text.toString()
-            try {
-                if (newAtributte.isBlank()){
-                    throw IllegalArgumentException("Entrada invalida. El atributo no puede ser vacio")
-                }else{
-                    listOfAttribute.add(newAtributte)
-                    editTxtAttribute.setText("")
-                    editTxtAttribute.hint = "Agrega otro atributo"
-                }
-            }catch (e: IllegalArgumentException){
-                editTxtAttribute.hint = "Completar campo!"
-            }
-
-
-
-
-
-
+            comprobarEntrada(editTxtAttribute)
         })
 
 
@@ -72,6 +57,37 @@ class CreateCollectionActivity : AppCompatActivity() {
         intent.putExtra("nombre", newCollection)
         setResult(RESULT_OK, intent)
         finish()
+    }
+
+    fun comprobarEntrada(editText:EditText){
+        var newAtributte = editText.text.toString()
+        try {
+            if (newAtributte.isBlank()){
+                throw IllegalArgumentException("Entrada invalida. El campo no puede ser vacio")
+            }else{
+                listOfAttribute.add(newAtributte)
+                editText.setText("")
+                editText.hint = "Agrega otro atributo"
+            }
+        }catch (e: IllegalArgumentException){
+            editText.hint = "Completar campo!"
+        }
+
+    }
+
+    fun validarGuardado(editTextAttribute: EditText, editTextName: EditText): Boolean {
+
+        if (editTextName.text.isBlank()){
+            editTextName.hint = "Agregar nombre!"
+            return false
+        }
+
+        if(listOfAttribute.size == 0){
+            editTextAttribute.hint = "Al menos un atributo!"
+            return false
+        }
+
+        return true
     }
 
 
