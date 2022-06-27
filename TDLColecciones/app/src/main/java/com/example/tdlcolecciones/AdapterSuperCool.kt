@@ -8,6 +8,7 @@ import kotlinx.android.synthetic.main.collection.view.*
 
 class AdapterSuperCool(private val mContext: android.content.Context, private var list: MutableList<Collection>)
     : ArrayAdapter<Collection>(mContext,0,list){
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val layout = LayoutInflater.from(mContext).inflate(R.layout.collection,parent,false)
 

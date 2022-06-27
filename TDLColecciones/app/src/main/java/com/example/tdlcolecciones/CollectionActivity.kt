@@ -60,7 +60,6 @@ class CollectionActivity : AppCompatActivity() {
         }
 
         list.setOnItemLongClickListener { _, _, position, _ ->
-            Toast.makeText(this,"HOLA ${position}",Toast.LENGTH_SHORT).show()
             collection.deleteItem(position)
             arrayAdapter.notifyDataSetChanged()
             saveInfo(collection,positionCollection)

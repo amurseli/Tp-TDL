@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import kotlinx.android.synthetic.main.collection.view.*
 import kotlin.collections.Collection
 
 class CreateItemActivity : AppCompatActivity() {
@@ -52,9 +53,15 @@ class CreateItemActivity : AppCompatActivity() {
         })
 
         btnSave.setOnClickListener(View.OnClickListener {
-            var item = Item(editName.text.toString())
-            item.dictionaryOfAttribute = dictionaryOfAttributes
-            saveInfo(item)
+            if (editName.text.isEmpty()){
+                editName.hint = "Agrega un nombre!"
+            }else{
+
+                var item = Item(editName.text.toString())
+                item.dictionaryOfAttribute = dictionaryOfAttributes
+                saveInfo(item)
+            }
+
         })
 
     }
