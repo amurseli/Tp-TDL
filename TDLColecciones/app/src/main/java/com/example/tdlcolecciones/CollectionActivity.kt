@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import kotlin.collections.ArrayList
-import kotlin.collections.Collection
 
 class CollectionActivity : AppCompatActivity() {
 
@@ -27,7 +26,7 @@ class CollectionActivity : AppCompatActivity() {
         val list: ListView = findViewById(R.id.list2)
 
         var collection = intent.getSerializableExtra("coleccion") as com.example.tdlcolecciones.Collection
-        var position = intent.extras?.get("position") as Int
+        var positionCollection = intent.extras?.get("position") as Int
 
         arrayAdapter = AdapterSuperCoolItem(this,collection.listOfItems)
         list.adapter = arrayAdapter
@@ -43,7 +42,7 @@ class CollectionActivity : AppCompatActivity() {
             if(activityResult.resultCode == RESULT_OK){
                 val newItem = activityResult.data?.getSerializableExtra("item") as Item
                 collection.addItem(newItem)
-                saveInfo(collection,position)
+                saveInfo(collection,positionCollection)
             }
         }
 
@@ -64,6 +63,7 @@ class CollectionActivity : AppCompatActivity() {
             Toast.makeText(this,"HOLA ${position}",Toast.LENGTH_SHORT).show()
             collection.deleteItem(position)
             arrayAdapter.notifyDataSetChanged()
+            saveInfo(collection,positionCollection)
             return@setOnItemLongClickListener true
 
         }

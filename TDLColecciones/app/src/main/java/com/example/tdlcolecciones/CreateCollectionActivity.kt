@@ -15,6 +15,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import java.lang.IllegalArgumentException
 import java.util.jar.Manifest
 
 class CreateCollectionActivity : AppCompatActivity() {
@@ -41,8 +42,23 @@ class CreateCollectionActivity : AppCompatActivity() {
 
         addAttributeBtn.setOnClickListener(View.OnClickListener {
             var newAtributte = editTxtAttribute.text.toString()
-            listOfAttribute.add(newAtributte)
-            editTxtAttribute.setText("")
+            try {
+                if (newAtributte.isBlank()){
+                    throw IllegalArgumentException("Entrada invalida. El atributo no puede ser vacio")
+                }else{
+                    listOfAttribute.add(newAtributte)
+                    editTxtAttribute.setText("")
+                    editTxtAttribute.hint = "Agrega otro atributo"
+                }
+            }catch (e: IllegalArgumentException){
+                editTxtAttribute.hint = "Completar campo!"
+            }
+
+
+
+
+
+
         })
 
 

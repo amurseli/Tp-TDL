@@ -200,7 +200,7 @@ class MainActivity : AppCompatActivity() {
             i++
         }
 
-        Toast.makeText(this,"Cambios guardados",Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this,"Cambios guardados",Toast.LENGTH_SHORT).show()
 
     }
 
