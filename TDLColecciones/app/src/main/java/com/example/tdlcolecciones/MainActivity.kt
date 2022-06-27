@@ -21,8 +21,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var arrayAdapter: AdapterSuperCool
 
     lateinit var mAuth:FirebaseAuth
-
-
     private val db = FirebaseFirestore.getInstance()
 
     var email = ""
@@ -61,14 +59,13 @@ class MainActivity : AppCompatActivity() {
 
         email = intent.extras?.get("email").toString()
 
-        Toast.makeText(this,"Hola " + email, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this,"Hola " + email, Toast.LENGTH_SHORT).show()
 
         val fab: View = findViewById(R.id.fab1)
         val list: ListView = findViewById(R.id.list1)
 
 
-        arrayAdapter =
-            AdapterSuperCool(this, listOfCollections)
+        arrayAdapter = AdapterSuperCool(this, listOfCollections)
         list.adapter = arrayAdapter
 
 
@@ -103,7 +100,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         this.menuInflater.inflate(R.menu.menu,menu)
-
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -117,8 +113,6 @@ class MainActivity : AppCompatActivity() {
 
     fun logout(){
         mAuth = FirebaseAuth.getInstance()
-
-
         mAuth.signOut()
 
 

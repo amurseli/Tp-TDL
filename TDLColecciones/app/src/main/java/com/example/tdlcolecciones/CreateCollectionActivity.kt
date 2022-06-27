@@ -10,11 +10,10 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.service.autofill.SaveInfo
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import java.lang.IllegalArgumentException
 import java.util.jar.Manifest
 
@@ -32,6 +31,11 @@ class CreateCollectionActivity : AppCompatActivity() {
         val addAttributeBtn:Button = findViewById(R.id.addAttributeBtn)
         val saveBtn: Button = findViewById(R.id.saveBtn)
 
+        var listViewOfAttributes: ListView = findViewById(R.id.listOfAttributes)
+
+        val arrayAdapter: ArrayAdapter<*> = ArrayAdapter(this, android.R.layout.simple_list_item_1, listOfAttribute)
+        listViewOfAttributes.adapter = arrayAdapter
+
 
         saveBtn.setOnClickListener(View.OnClickListener {
 
@@ -44,6 +48,7 @@ class CreateCollectionActivity : AppCompatActivity() {
 
         addAttributeBtn.setOnClickListener(View.OnClickListener {
             comprobarEntrada(editTxtAttribute)
+            arrayAdapter.notifyDataSetChanged()
         })
 
 

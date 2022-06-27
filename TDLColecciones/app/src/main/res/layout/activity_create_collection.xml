@@ -10,23 +10,23 @@
         android:id="@+id/saveBtn"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="75dp"
+        android:layout_marginTop="604dp"
         android:text="Confirmar"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/addAttributeBtn"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="196dp"
+        android:layout_marginTop="352dp"
         android:text="Agregar atributo"
-        app:layout_constraintBottom_toTopOf="@+id/saveBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/nameCollectionEdit"
@@ -46,14 +46,25 @@
         android:id="@+id/attributeEdit"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
         android:ems="10"
         android:hint="Agregar atrinuto"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/addAttributeBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameCollectionEdit"
-        app:layout_constraintVertical_bias="0.36" />
+        app:layout_constraintTop_toBottomOf="@+id/nameCollectionEdit" />
+
+    <ListView
+        android:id="@+id/listOfAttributes"
+        android:layout_width="180dp"
+        android:layout_height="135dp"
+        android:layout_marginTop="26dp"
+        app:layout_constraintBottom_toTopOf="@+id/saveBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addAttributeBtn"
+        app:layout_constraintVertical_bias="0.056" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

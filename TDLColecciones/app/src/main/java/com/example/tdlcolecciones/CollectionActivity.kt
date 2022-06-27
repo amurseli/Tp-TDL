@@ -17,7 +17,6 @@ class CollectionActivity : AppCompatActivity() {
         super.onResume()
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_collection)
@@ -35,8 +34,6 @@ class CollectionActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar!!.title = collection.name
         actionBar.setDisplayHomeAsUpEnabled(true)
-
-
 
         val responseLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ activityResult->
             if(activityResult.resultCode == RESULT_OK){
